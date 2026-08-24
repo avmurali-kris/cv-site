@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muralikrishna A V — PLM &amp; CAD Integration Consultant</title>
+<meta name="description" content="PLM and CAD automation specialist with 22+ years of experience delivering enterprise PLM implementations, CAD integrations, and large-scale data migration programs.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EDEEE7;
+    --paper-alt:#E2E4DA;
+    --ink:#16233D;
+    --ink-soft:#525C6B;
+    --line:#B7BFC4;
+    --line-soft:#D3D8D2;
+    --accent:#C1501F;
+    --accent-soft:#E7D9CE;
+    --teal:#2C6E68;
+    --teal-soft:#D9E2DE;
+    --white:#FAFAF6;
+    --radius:2px;
+    --sheet-max:1040px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans', sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  ::selection{background:var(--accent); color:var(--white);}
+  h1,h2,h3,h4{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    margin:0;
+    letter-spacing:-0.01em;
+  }
+  a{color:var(--accent);}
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  /* ---------- Drawing-sheet frame ---------- */
+  .sheet{
+    max-width:var(--sheet-max);
+    margin:28px auto;
+    background:var(--white);
+    border:1.5px solid var(--ink);
+    position:relative;
+  }
+  .ruler-top, .ruler-bottom{
+    display:flex;
+    border-bottom:1px solid var(--line);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.62rem;
+    color:var(--ink-soft);
+  }
+  .ruler-bottom{border-bottom:none; border-top:1px solid var(--line);}
+  .ruler-top span, .ruler-bottom span{
+    flex:1;
+    text-align:center;
+    padding:4px 0;
+    border-right:1px solid var(--line-soft);
+  }
+  .ruler-top span:last-child, .ruler-bottom span:last-child{border-right:none;}
+
+  /* ---------- Title block (header) ---------- */
+  .titleblock{
+    display:grid;
+    grid-template-columns:1fr auto;
+    gap:24px;
+    padding:36px 40px 28px;
+    border-bottom:1.5px solid var(--ink);
+  }
+  .titleblock h1{
+    font-size:clamp(1.9rem, 4vw, 2.7rem);
+    line-height:1.05;
+  }
+  .role-line{
+    margin-top:8px;
+    font-size:1.05rem;
+    color:var(--ink-soft);
+  }
+  .titleblock .contact{
+    margin-top:18px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px 22px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem;
+  }
+  .titleblock .contact a{color:var(--ink); text-decoration:none; border-bottom:1px solid var(--line);}
+  .titleblock .contact a:hover{color:var(--accent); border-color:var(--accent);}
+  .tb-fields{
+    display:grid;
+    grid-template-columns:repeat(2, minmax(90px,1fr));
+    gap:0;
+    border:1px solid var(--ink);
+    align-self:start;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.68rem;
+  }
+  .tb-fields div{
+    padding:8px 10px;
+    border-right:1px solid var(--line);
+    border-bottom:1px solid var(--line);
+  }
+  .tb-fields div:nth-child(even){border-right:none;}
+  .tb-fields div:nth-last-child(-n+2){border-bottom:none;}
+  .tb-fields .lbl{color:var(--ink-soft); display:block; margin-bottom:3px; letter-spacing:0.08em; text-transform:uppercase;}
+  .tb-fields .val{color:var(--ink); font-weight:600;}
+
+  /* ---------- Nav / sheet index ---------- */
+  nav.sheets{
+    display:flex;
+    flex-wrap:wrap;
+    border-bottom:1.5px solid var(--ink);
+    position:sticky;
+    top:0;
+    background:var(--white);
+    z-index:10;
+  }
+  nav.sheets a{
+    flex:1;
+    min-width:120px;
+    text-align:center;
+    padding:12px 8px;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    text-decoration:none;
+    border-right:1px solid var(--line);
+    transition:background .15s, color .15s;
+  }
+  nav.sheets a:last-child{border-right:none;}
+  nav.sheets a:hover{background:var(--paper-alt); color:var(--ink);}
+  nav.sheets a.active{color:var(--accent); background:var(--accent-soft);}
+
+  /* ---------- Sections ---------- */
+  section{
+    padding:44px 40px;
+    border-bottom:1px solid var(--line);
+  }
+  section:last-of-type{border-bottom:none;}
+  .sec-head{
+    display:flex;
+    align-items:baseline;
+    gap:14px;
+    margin-bottom:26px;
+  }
+  .sec-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.85rem;
+    color:var(--accent);
+    border:1px solid var(--accent);
+    padding:2px 8px;
+  }
+  .sec-head h2{font-size:1.5rem;}
+
+  /* Summary */
+  .summary-grid{
+    display:grid;
+    grid-template-columns:1.6fr 1fr;
+    gap:36px;
+  }
+  .summary-grid p{color:var(--ink-soft); font-size:1.02rem;}
+  .stat-block{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+  }
+  .stat{
+    background:var(--white);
+    padding:16px 14px;
+  }
+  .stat .num{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:1.7rem;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .stat .lbl{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+  }
+
+  /* Experience */
+  .role{margin-bottom:34px;}
+  .role:last-child{margin-bottom:0;}
+  .role-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    flex-wrap:wrap;
+    gap:6px 16px;
+    border-bottom:1px solid var(--line-soft);
+    padding-bottom:8px;
+    margin-bottom:12px;
+  }
+  .role-header h3{font-size:1.15rem;}
+  .role-header .period{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--accent);
+  }
+  .role ul{margin:0; padding-left:0; list-style:none;}
+  .role li{
+    position:relative;
+    padding-left:20px;
+    margin-bottom:9px;
+    color:var(--ink-soft);
+  }
+  .role li::before{
+    content:"—";
+    position:absolute;
+    left:0;
+    color:var(--accent);
+  }
+
+  .earlier-table{width:100%; border-collapse:collapse; margin-top:8px;}
+  .earlier-table th, .earlier-table td{
+    text-align:left;
+    padding:10px 12px;
+    border-bottom:1px solid var(--line-soft);
+    font-size:0.92rem;
+    vertical-align:top;
+  }
+  .earlier-table th{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    border-bottom:1.5px solid var(--ink);
+  }
+  .earlier-table td.period{font-family:'IBM Plex Mono', monospace; font-size:0.8rem; color:var(--accent); white-space:nowrap;}
+  .earlier-table td.role-cell{color:var(--ink); font-weight:600;}
+  .earlier-table td.detail{color:var(--ink-soft);}
+
+  /* Expertise */
+  .expertise-block{margin-bottom:30px;}
+  .expertise-block:last-child{margin-bottom:0;}
+  .expertise-block h3{
+    font-size:0.95rem;
+    font-family:'IBM Plex Mono', monospace;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+    padding-bottom:6px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .cat{margin-bottom:14px;}
+  .cat .cat-name{font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:8px; display:block;}
+  .chips{display:flex; flex-wrap:wrap; gap:7px;}
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    padding:5px 10px;
+    border:1px solid var(--line);
+    color:var(--ink-soft);
+    background:var(--paper);
+  }
+  .expertise-block.core .chip{border-color:var(--accent); color:var(--accent); background:var(--accent-soft);}
+  .expertise-block.foundation .chip{border-color:var(--teal); color:var(--teal); background:var(--teal-soft);}
+
+  /* Engagements */
+  .filter-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-bottom:22px;
+  }
+  .filter-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    letter-spacing:0.04em;
+    text-transform:uppercase;
+    padding:7px 13px;
+    border:1px solid var(--line);
+    background:var(--white);
+    color:var(--ink-soft);
+    cursor:pointer;
+    transition:all .15s;
+  }
+  .filter-btn:hover{border-color:var(--ink);}
+  .filter-btn.active{background:var(--ink); border-color:var(--ink); color:var(--white);}
+  .eng-count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--ink-soft);
+    margin-bottom:14px;
+  }
+  table.bom{width:100%; border-collapse:collapse;}
+  table.bom th{
+    text-align:left;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.66rem;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--ink-soft);
+    padding:9px 12px;
+    border-bottom:1.5px solid var(--ink);
+  }
+  table.bom td{
+    padding:12px;
+    border-bottom:1px solid var(--line-soft);
+    font-size:0.9rem;
+    vertical-align:top;
+  }
+  table.bom td.client{font-weight:600; color:var(--ink);}
+  table.bom td.industry{color:var(--ink-soft); white-space:nowrap;}
+  table.bom td.scope{color:var(--ink-soft);}
+  table.bom tr.hidden{display:none;}
+  table.bom tr:hover td{background:var(--paper-alt);}
+
+  /* Education/Publications */
+  .edu-grid{display:grid; grid-template-columns:1fr 1fr; gap:30px;}
+  .edu-card{border:1px solid var(--line); padding:20px;}
+  .edu-card .eyebrow{margin-bottom:8px;}
+  .edu-card h3{font-size:1.05rem; margin-bottom:6px;}
+  .edu-card p{color:var(--ink-soft); margin:4px 0 0; font-size:0.92rem;}
+
+  /* Footer */
+  footer{
+    padding:30px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:14px;
+    background:var(--ink);
+    color:var(--paper);
+  }
+  footer .foot-left{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:#9AA6B8;}
+  footer button{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    padding:10px 18px;
+    background:var(--accent);
+    color:var(--white);
+    border:none;
+    cursor:pointer;
+  }
+  footer button:hover{background:#a4451b;}
+
+  @media (max-width:760px){
+    .titleblock{grid-template-columns:1fr;}
+    .tb-fields{grid-template-columns:1fr 1fr;}
+    .summary-grid{grid-template-columns:1fr;}
+    .edu-grid{grid-template-columns:1fr;}
+    section{padding:32px 20px;}
+    .titleblock{padding:28px 20px;}
+    nav.sheets a{min-width:33%;}
+    table.bom, table.bom thead, table.bom tbody, table.bom th, table.bom td, table.bom tr{display:block;}
+    table.bom thead{display:none;}
+    table.bom tr{border-bottom:1px solid var(--ink); padding:10px 0; margin-bottom:6px;}
+    table.bom td{border:none; padding:3px 0;}
+    table.bom td.client::before{content:"Client — "; color:var(--ink-soft); font-family:'IBM Plex Mono', monospace; font-size:0.65rem;}
+    table.bom td.industry::before{content:"Industry — "; color:var(--ink-soft); font-family:'IBM Plex Mono', monospace; font-size:0.65rem;}
+    table.bom td.scope::before{content:"Scope — "; color:var(--ink-soft); font-family:'IBM Plex Mono', monospace; font-size:0.65rem;}
+    .earlier-table, .earlier-table thead, .earlier-table tbody, .earlier-table tr, .earlier-table td{display:block;}
+    .earlier-table thead{display:none;}
+    .earlier-table tr{border-bottom:1px solid var(--ink); padding:8px 0; margin-bottom:6px;}
+  }
+
+  @media print{
+    nav.sheets, footer button{display:none;}
+    body{background:#fff;}
+    .sheet{border:none; margin:0;}
+    section{break-inside:avoid;}
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+  }
+</style>
+</head>
+<body>
+
+<div class="sheet" id="top">
+  <div class="ruler-top"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
+
+  <header class="titleblock">
+    <div>
+      <p class="eyebrow">Curriculum Vitae — Sheet 1 of 1</p>
+      <h1>Muralikrishna A V</h1>
+      <p class="role-line">PLM &amp; CAD Integration Consultant — Teamcenter · Creo Elements/Direct · Enterprise Data Migration</p>
+      <div class="contact">
+        <span>📍 Chennai, Tamil Nadu, India</span>
+        <a href="mailto:avmurali@gmail.com">avmurali@gmail.com</a>
+        <a href="tel:+919884822820">+91 98848 22820</a>
+      </div>
+    </div>
+    <div class="tb-fields">
+      <div><span class="lbl">Experience</span><span class="val">22+ yrs</span></div>
+      <div><span class="lbl">Sector</span><span class="val">PLM / CAD</span></div>
+      <div><span class="lbl">Based in</span><span class="val">Chennai, IN</span></div>
+      <div><span class="lbl">Works</span><span class="val">Remote</span></div>
+      <div><span class="lbl">Rev.</span><span class="val">2026</span></div>
+      <div><span class="lbl">Status</span><span class="val">Active</span></div>
+    </div>
+  </header>
+
+  <nav class="sheets" id="sheetNav">
+    <a href="#summary">01 Summary</a>
+    <a href="#experience">02 Experience</a>
+    <a href="#expertise">03 Expertise</a>
+    <a href="#engagements">04 Engagements</a>
+    <a href="#education">05 Education</a>
+  </nav>
+
+  <!-- 01 SUMMARY -->
+  <section id="summary">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Professional Summary</h2></div>
+    <div class="summary-grid">
+      <p>
+        PLM and CAD automation specialist with 22+ years of experience delivering enterprise PLM implementations,
+        CAD integrations, and large-scale data migration programs. Extensive experience with Teamcenter,
+        Creo Elements/Direct, Solid Edge, NX and multi-CAD environments. Proven ability to lead global PLM
+        transformation initiatives, build CAD–PLM integrations, and support enterprise migration projects for
+        customers across Europe, Asia, and the Middle East.
+      </p>
+      <div class="stat-block">
+        <div class="stat"><div class="num">22+</div><div class="lbl">Years Experience</div></div>
+        <div class="stat"><div class="num">12</div><div class="lbl">Client Engagements</div></div>
+        <div class="stat"><div class="num">3</div><div class="lbl">Continents Served</div></div>
+        <div class="stat"><div class="num">1</div><div class="lbl">Productized Integration</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 EXPERIENCE -->
+  <section id="experience">
+    <div class="sec-head"><span class="sec-num">02</span><h2>Professional Experience</h2></div>
+
+    <div class="role">
+      <div class="role-header">
+        <h3>PLM Migration Analyst — R-3DE India / PLMS-ME, Dubai</h3>
+        <span class="period mono">Apr 2018 — Present · Remote</span>
+      </div>
+      <ul>
+        <li>Architected, designed, and developed a CED–Teamcenter integration entirely from scratch (greenfield implementation), owning the solution end-to-end from concept to production deployment</li>
+        <li>Productized the solution into a licensed offering, now generating recurring annual revenue and adopted across multiple customer implementations</li>
+        <li>Defined overall integration architecture, data flow, and system design, ensuring scalability and alignment with enterprise PLM standards</li>
+        <li>Led multiple enterprise-scale CAD and PLM migration programs to Teamcenter, including large-scale migrations from Creo Elements/Direct Model Manager</li>
+        <li>Configured and implemented Teamcenter Dispatcher, workflows, and CAD translators across multi-CAD environments</li>
+        <li>Developed and integrated ERP interfaces using T4EA, enabling seamless data exchange between PLM and enterprise systems</li>
+        <li>Currently leading a multi-year PLM transformation program, driving implementation, standardization, and continuous improvement</li>
+      </ul>
+    </div>
+
+    <div class="role">
+      <div class="role-header"><h3>Earlier Professional Experience</h3></div>
+      <table class="earlier-table">
+        <thead>
+          <tr><th>Period</th><th>Role &amp; Company</th><th>Focus</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="period mono">May 2017 – Mar 2018</td>
+            <td class="role-cell">Technical Specialist — HCL Technologies, Chennai</td>
+            <td class="detail">Technical Lead for Ford Business Layer ERP platform; architecture, development and deployment using Core Java; implemented incremental synchronization and improved system performance</td>
+          </tr>
+          <tr>
+            <td class="period mono">May 2011 – Apr 2017</td>
+            <td class="role-cell">Manager – Projects — Cognizant Technology Solutions</td>
+            <td class="detail">Led enterprise Product Cost Management integrations and CAD search systems; developed PLM integrations using C# services; implemented systems engineering architecture using Neo4J graph databases</td>
+          </tr>
+          <tr>
+            <td class="period mono">Oct 2007 – May 2011</td>
+            <td class="role-cell">Senior Software Engineer — Geometric</td>
+            <td class="detail">Developed Knowledge-Based Engineering frameworks; built CAD automation solutions using Core Java and CATIA APIs</td>
+          </tr>
+          <tr>
+            <td class="period mono">Aug 2004 – Sep 2007</td>
+            <td class="role-cell">Software Engineer — Triad Software</td>
+            <td class="detail">Developed CAD-CAM Translator solutions using C/C++; worked with the Parasolid kernel and NX APIs</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 03 EXPERTISE -->
+  <section id="expertise">
+    <div class="sec-head"><span class="sec-num">03</span><h2>Technical Expertise</h2></div>
+
+    <div class="expertise-block core">
+      <h3>Core Expertise — 2018 to 2026</h3>
+      <div class="cat">
+        <span class="cat-name">Teamcenter</span>
+        <div class="chips">
+          <span class="chip">Workflows</span><span class="chip">Queries</span><span class="chip">Configuration Tasks</span>
+          <span class="chip">Translator Configuration</span><span class="chip">PLM XML Basics</span>
+          <span class="chip">Organization Structure</span><span class="chip">BMIDE Basics</span>
+        </div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">Data Migration / Utilities</span>
+        <div class="chips"><span class="chip">IPS Upload</span><span class="chip">CSV2TCXML</span></div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">Teamcenter Programming</span>
+        <div class="chips"><span class="chip">ITK Basics</span><span class="chip">SOA</span><span class="chip">T4EA (TCL/TK)</span></div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">CAD Tools</span>
+        <div class="chips">
+          <span class="chip">Creo Elements/Direct</span><span class="chip">Solid Edge</span>
+          <span class="chip">Siemens NX</span><span class="chip">CATIA (Basic)</span>
+        </div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">CAD API / Customization</span>
+        <div class="chips">
+          <span class="chip">CED LISP API</span><span class="chip">SE API</span>
+          <span class="chip">NX Open Basics</span><span class="chip">CATVBS Basics</span>
+        </div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">General Programming</span>
+        <div class="chips">
+          <span class="chip">PowerShell</span><span class="chip">SQL</span><span class="chip">C#</span><span class="chip">Common Lisp</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="expertise-block foundation">
+      <h3>Foundational Experience — 2004 to 2018</h3>
+      <div class="cat">
+        <span class="cat-name">PLM Platforms</span>
+        <div class="chips"><span class="chip">SmarTeam</span><span class="chip">Agile PLM (Basic)</span></div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">CAD Platforms</span>
+        <div class="chips"><span class="chip">Creo Parametric</span><span class="chip">CATIA V5</span></div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">Programming Languages</span>
+        <div class="chips">
+          <span class="chip">C#</span><span class="chip">VB.NET</span><span class="chip">Core Java</span>
+          <span class="chip">Common Lisp</span><span class="chip">Perl</span><span class="chip">PowerShell</span>
+          <span class="chip">C</span><span class="chip">C++</span>
+        </div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">CAD Translators</span>
+        <div class="chips"><span class="chip">Elysium</span><span class="chip">CADCAM-E</span></div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">Databases</span>
+        <div class="chips"><span class="chip">Oracle</span><span class="chip">Neo4J Graph DB</span></div>
+      </div>
+      <div class="cat">
+        <span class="cat-name">Tools &amp; Version Control</span>
+        <div class="chips"><span class="chip">SVN</span><span class="chip">GitHub</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 ENGAGEMENTS -->
+  <section id="engagements">
+    <div class="sec-head"><span class="sec-num">04</span><h2>Major Client Engagements</h2></div>
+    <p class="eyebrow" style="margin-bottom:16px;">2018 – 2026 · Filter by industry</p>
+    <div class="filter-row" id="filterRow">
+      <button class="filter-btn active" data-filter="all">All</button>
+    </div>
+    <p class="eng-count" id="engCount"></p>
+    <table class="bom" id="bomTable">
+      <thead>
+        <tr><th>Client</th><th>Industry</th><th>Project Scope</th></tr>
+      </thead>
+      <tbody>
+        <tr data-industry="Heavy Equipment / Material Handling">
+          <td class="client">Manitou, France</td>
+          <td class="industry">Heavy Equipment / Material Handling</td>
+          <td class="scope">CADBOM, EBOM, MBOM, BOP, BOE, SBOM migration; Creo Elements/Direct – Teamcenter integration</td>
+        </tr>
+        <tr data-industry="Electronics Manufacturing">
+          <td class="client">Foxconn, Taiwan</td>
+          <td class="industry">Electronics Manufacturing</td>
+          <td class="scope">Creo Elements/Direct – Teamcenter integration</td>
+        </tr>
+        <tr data-industry="Consumer Goods">
+          <td class="client">Procter &amp; Gamble, USA</td>
+          <td class="industry">Consumer Goods</td>
+          <td class="scope">Solid Edge – Teamcenter configurator context customization</td>
+        </tr>
+        <tr data-industry="Industrial Automation">
+          <td class="client">Antares, Italy</td>
+          <td class="industry">Industrial Automation</td>
+          <td class="scope">CAD data migration; Creo Elements/Direct – Teamcenter integration</td>
+        </tr>
+        <tr data-industry="Electrical Equipment Manufacturing">
+          <td class="client">VDL KLIMA, Belgium</td>
+          <td class="industry">Electrical Equipment Manufacturing</td>
+          <td class="scope">CAD data migration; Creo Elements/Direct – Teamcenter integration; Creo Elements/Direct to NX translation</td>
+        </tr>
+        <tr data-industry="Industrial Manufacturing">
+          <td class="client">Glatec, Bulgaria</td>
+          <td class="industry">Industrial Manufacturing</td>
+          <td class="scope">Solid Edge – Teamcenter integration; NX integration; Teamcenter T4EA</td>
+        </tr>
+        <tr data-industry="Metrology Systems">
+          <td class="client">Xenics, Belgium</td>
+          <td class="industry">Metrology Systems</td>
+          <td class="scope">Solid Edge – Teamcenter integration; Teamcenter T4EA</td>
+        </tr>
+        <tr data-industry="Electrical Switchgear">
+          <td class="client">Kraus &amp; Naimer, Austria</td>
+          <td class="industry">Electrical Switchgear</td>
+          <td class="scope">CAD data migration; Creo Elements/Direct – Teamcenter integration</td>
+        </tr>
+        <tr data-industry="Industrial Machinery">
+          <td class="client">Niko, Belgium</td>
+          <td class="industry">Industrial Machinery</td>
+          <td class="scope">Creo Elements/Direct – Teamcenter integration</td>
+        </tr>
+        <tr data-industry="Engineering Services">
+          <td class="client">LTC, Dubai</td>
+          <td class="industry">Engineering Services</td>
+          <td class="scope">Solid Edge customization; Teamcenter workflows</td>
+        </tr>
+        <tr data-industry="Engineering Services">
+          <td class="client">Enginia, Ireland</td>
+          <td class="industry">Engineering Services</td>
+          <td class="scope">Solid Edge – Teamcenter integration; Teamcenter workflows</td>
+        </tr>
+        <tr data-industry="Industrial Automation">
+          <td class="client">Cloostermans Huwaert, Belgium</td>
+          <td class="industry">Industrial Automation</td>
+          <td class="scope">NX – Teamcenter integration; Solid Edge – Teamcenter integration; Teamcenter workflows</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- 05 EDUCATION -->
+  <section id="education">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Education &amp; Publications</h2></div>
+    <div class="edu-grid">
+      <div class="edu-card">
+        <p class="eyebrow">Education</p>
+        <h3>B.E. — Mechanical Engineering</h3>
+        <p>College of Engineering Guindy, Anna University — 2004</p>
+        <p>First Class with Distinction</p>
+      </div>
+      <div class="edu-card">
+        <p class="eyebrow">Publications</p>
+        <h3>Integrated Framework for Simulation Data Management</h3>
+        <p>Paper shortlisted for presentation at the NAFEMS World Congress</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="ruler-bottom"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span></div>
+</div>
+
+<footer>
+  <span class="foot-left">© <span id="year"></span> Muralikrishna A V · Built as a drawing-sheet, not a template.</span>
+  <button onclick="window.print()">Save as PDF</button>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // Build filter buttons from data-industry values
+  const rows = Array.from(document.querySelectorAll('#bomTable tbody tr'));
+  const industries = [...new Set(rows.map(r => r.dataset.industry))].sort();
+  const filterRow = document.getElementById('filterRow');
+  industries.forEach(ind => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn';
+    btn.dataset.filter = ind;
+    btn.textContent = ind;
+    filterRow.appendChild(btn);
+  });
+
+  const countEl = document.getElementById('engCount');
+  function applyFilter(filter){
+    let visible = 0;
+    rows.forEach(r => {
+      const match = filter === 'all' || r.dataset.industry === filter;
+      r.classList.toggle('hidden', !match);
+      if(match) visible++;
+    });
+    countEl.textContent = `Showing ${visible} of ${rows.length} engagements`;
+  }
+  filterRow.addEventListener('click', e => {
+    const btn = e.target.closest('.filter-btn');
+    if(!btn) return;
+    filterRow.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilter(btn.dataset.filter);
+  });
+  applyFilter('all');
+
+  // Active nav highlighting
+  const navLinks = Array.from(document.querySelectorAll('#sheetNav a'));
+  const sections = navLinks.map(a => document.querySelector(a.getAttribute('href')));
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const id = '#' + entry.target.id;
+        navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === id));
+      }
+    });
+  }, { rootMargin: '-40% 0px -55% 0px' });
+  sections.forEach(s => s && observer.observe(s));
+</script>
+
+</body>
+</html>
