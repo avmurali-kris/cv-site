@@ -333,6 +333,26 @@
   table.bom tr.hidden{display:none;}
   table.bom tr:hover td{background:var(--paper-alt);}
 
+  /* Leadership */
+  .lead-role{
+    border-bottom:1px solid var(--line-soft);
+    padding-bottom:8px;
+    margin-bottom:16px;
+  }
+  .lead-role h3{font-size:1.15rem;}
+  .lead-role .period{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--accent);
+    display:block;
+    margin-top:4px;
+  }
+  .leadership-grid{
+    display:grid;
+    grid-template-columns:1.6fr 1fr;
+    gap:36px;
+  }
+
   /* Education/Publications */
   .edu-grid{display:grid; grid-template-columns:1fr 1fr; gap:30px;}
   .edu-card{border:1px solid var(--line); padding:20px;}
@@ -352,6 +372,7 @@
     color:var(--paper);
   }
   footer .foot-left{font-family:'IBM Plex Mono', monospace; font-size:0.72rem; color:#9AA6B8;}
+  .foot-actions{display:flex; gap:10px; flex-wrap:wrap;}
   footer button{
     font-family:'IBM Plex Mono', monospace;
     font-size:0.75rem;
@@ -364,11 +385,21 @@
     cursor:pointer;
   }
   footer button:hover{background:#a4451b;}
+  footer button.secondary{
+    background:transparent;
+    color:var(--paper);
+    border:1px solid #47536B;
+  }
+  footer button.secondary:hover{background:#1f2d4a; border-color:#5b6981;}
+
+  /* lite-only content: hidden everywhere except during Lite PDF export */
+  .lite-show{display:none;}
 
   @media (max-width:760px){
     .titleblock{grid-template-columns:1fr;}
     .tb-fields{grid-template-columns:1fr 1fr;}
     .summary-grid{grid-template-columns:1fr;}
+    .leadership-grid{grid-template-columns:1fr;}
     .edu-grid{grid-template-columns:1fr;}
     section{padding:32px 20px;}
     .titleblock{padding:28px 20px;}
@@ -386,10 +417,18 @@
   }
 
   @media print{
-    nav.sheets, footer button{display:none;}
+    nav.sheets, footer{display:none;}
     body{background:#fff;}
     .sheet{border:none; margin:0;}
     section{break-inside:avoid;}
+
+    /* ---- Lite CV: one-page condensed export ---- */
+    body.print-lite .lite-hide{display:none !important;}
+    body.print-lite .lite-show{display:block !important;}
+    body.print-lite section{padding:14px 0; border-bottom:none;}
+    body.print-lite .sec-head{margin-bottom:12px;}
+    body.print-lite .role li:nth-child(n+4){display:none;}
+    body.print-lite .stat-block{gap:1px;}
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -428,6 +467,7 @@
     <a href="#expertise">03 Expertise</a>
     <a href="#engagements">04 Engagements</a>
     <a href="#education">05 Education</a>
+    <a href="#leadership">06 Leadership</a>
   </nav>
 
   <!-- 01 SUMMARY -->
@@ -470,7 +510,7 @@
       </ul>
     </div>
 
-    <div class="role">
+    <div class="role lite-hide">
       <div class="role-header"><h3>Earlier Professional Experience</h3></div>
       <table class="earlier-table">
         <thead>
@@ -520,7 +560,7 @@
         <span class="cat-name">Data Migration / Utilities</span>
         <div class="chips"><span class="chip">IPS Upload</span><span class="chip">CSV2TCXML</span></div>
       </div>
-      <div class="cat">
+      <div class="cat lite-hide">
         <span class="cat-name">Teamcenter Programming</span>
         <div class="chips"><span class="chip">ITK Basics</span><span class="chip">SOA</span><span class="chip">T4EA (TCL/TK)</span></div>
       </div>
@@ -531,14 +571,14 @@
           <span class="chip">Siemens NX</span><span class="chip">CATIA (Basic)</span>
         </div>
       </div>
-      <div class="cat">
+      <div class="cat lite-hide">
         <span class="cat-name">CAD API / Customization</span>
         <div class="chips">
           <span class="chip">CED LISP API</span><span class="chip">SE API</span>
           <span class="chip">NX Open Basics</span><span class="chip">CATVBS Basics</span>
         </div>
       </div>
-      <div class="cat">
+      <div class="cat lite-hide">
         <span class="cat-name">General Programming</span>
         <div class="chips">
           <span class="chip">PowerShell</span><span class="chip">SQL</span><span class="chip">C#</span><span class="chip">Common Lisp</span>
@@ -546,7 +586,7 @@
       </div>
     </div>
 
-    <div class="expertise-block foundation">
+    <div class="expertise-block foundation lite-hide">
       <h3>Foundational Experience — 2004 to 2018</h3>
       <div class="cat">
         <span class="cat-name">PLM Platforms</span>
@@ -582,12 +622,17 @@
   <!-- 04 ENGAGEMENTS -->
   <section id="engagements">
     <div class="sec-head"><span class="sec-num">04</span><h2>Major Client Engagements</h2></div>
-    <p class="eyebrow" style="margin-bottom:16px;">2018 – 2026 · Filter by industry</p>
-    <div class="filter-row" id="filterRow">
+    <p class="eyebrow lite-hide" style="margin-bottom:16px;">2018 – 2026 · Filter by industry</p>
+    <div class="filter-row lite-hide" id="filterRow">
       <button class="filter-btn active" data-filter="all">All</button>
     </div>
-    <p class="eng-count" id="engCount"></p>
-    <table class="bom" id="bomTable">
+    <p class="eng-count lite-hide" id="engCount"></p>
+    <p class="lite-show" style="color:var(--ink-soft); font-size:0.92rem;">
+      12 client engagements (2018–2026) across France, Taiwan, USA, Italy, Belgium, Bulgaria, Austria, Ireland &amp; the UAE —
+      spanning Heavy Equipment, Electronics, Consumer Goods, Industrial Automation and Engineering Services.
+      Full list available in the Detailed CV.
+    </p>
+    <table class="bom lite-hide" id="bomTable">
       <thead>
         <tr><th>Client</th><th>Industry</th><th>Project Scope</th></tr>
       </thead>
@@ -666,10 +711,47 @@
         <p>College of Engineering Guindy, Anna University — 2004</p>
         <p>First Class with Distinction</p>
       </div>
-      <div class="edu-card">
+      <div class="edu-card lite-hide">
         <p class="eyebrow">Publications</p>
         <h3>Integrated Framework for Simulation Data Management</h3>
         <p>Paper shortlisted for presentation at the NAFEMS World Congress</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 LEADERSHIP -->
+  <section id="leadership" class="lite-hide">
+    <div class="sec-head"><span class="sec-num">06</span><h2>Leadership Skills</h2></div>
+    <div class="leadership-grid">
+      <div>
+        <div class="lead-role">
+          <h3>Director of India Operations — R-3DE India Private Limited</h3>
+          <span class="period mono">2018 — Present</span>
+        </div>
+        <ul style="margin:0; padding-left:0; list-style:none;">
+          <li style="position:relative; padding-left:20px; margin-bottom:9px; color:var(--ink-soft);">
+            <span style="position:absolute; left:0; color:var(--accent);">—</span>
+            Founded R-3DE India in 2018 with 2 resources; built and scaled the team to 20 CAD/PLM professionals working from Chennai, Trichy, and Hyderabad
+          </li>
+          <li style="position:relative; padding-left:20px; margin-bottom:9px; color:var(--ink-soft);">
+            <span style="position:absolute; left:0; color:var(--accent);">—</span>
+            Own all aspects of company administration — operations, resourcing, delivery governance, and client relationships
+          </li>
+          <li style="position:relative; padding-left:20px; margin-bottom:9px; color:var(--ink-soft);">
+            <span style="position:absolute; left:0; color:var(--accent);">—</span>
+            R-3DE India serves as the Technology Partner for parent company PLMS Middle East (Dubai), supporting its customer base across the Middle East, South Africa, Europe, and Ireland
+          </li>
+          <li style="position:relative; padding-left:20px; margin-bottom:9px; color:var(--ink-soft);">
+            <span style="position:absolute; left:0; color:var(--accent);">—</span>
+            Responsible for team growth, capability building, and delivery quality across multi-site engineering operations
+          </li>
+        </ul>
+      </div>
+      <div class="stat-block">
+        <div class="stat"><div class="num">2018</div><div class="lbl">Company Founded</div></div>
+        <div class="stat"><div class="num">20</div><div class="lbl">Team Members</div></div>
+        <div class="stat"><div class="num">3</div><div class="lbl">Delivery Locations</div></div>
+        <div class="stat"><div class="num">4</div><div class="lbl">Regions Served</div></div>
       </div>
     </div>
   </section>
@@ -679,7 +761,10 @@
 
 <footer>
   <span class="foot-left">© <span id="year"></span> Muralikrishna A V · Built as a drawing-sheet, not a template.</span>
-  <button onclick="window.print()">Save as PDF</button>
+  <div class="foot-actions">
+    <button class="secondary" id="liteBtn">Save Lite CV</button>
+    <button id="detailedBtn">Save Detailed CV</button>
+  </div>
 </footer>
 
 <script>
@@ -728,6 +813,19 @@
     });
   }, { rootMargin: '-40% 0px -55% 0px' });
   sections.forEach(s => s && observer.observe(s));
+
+  // Save Lite CV / Save Detailed CV
+  document.getElementById('liteBtn').addEventListener('click', () => {
+    document.body.classList.add('print-lite');
+    window.print();
+  });
+  document.getElementById('detailedBtn').addEventListener('click', () => {
+    document.body.classList.remove('print-lite');
+    window.print();
+  });
+  window.addEventListener('afterprint', () => {
+    document.body.classList.remove('print-lite');
+  });
 </script>
 
 </body>
