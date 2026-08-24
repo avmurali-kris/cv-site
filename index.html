@@ -34,6 +34,8 @@
     font-size:16px;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
   }
   ::selection{background:var(--accent); color:var(--white);}
   h1,h2,h3,h4{
@@ -326,12 +328,19 @@
     border-bottom:1px solid var(--line-soft);
     font-size:0.9rem;
     vertical-align:top;
+    background:var(--row-tint, transparent);
+  }
+  table.bom td:first-child{
+    border-left:4px solid var(--row-accent, var(--line));
   }
   table.bom td.client{font-weight:600; color:var(--ink);}
   table.bom td.industry{color:var(--ink-soft); white-space:nowrap;}
   table.bom td.scope{color:var(--ink-soft);}
   table.bom tr.hidden{display:none;}
-  table.bom tr:hover td{background:var(--paper-alt);}
+  table.bom tr:hover td{filter:brightness(0.97);}
+
+  .filter-btn{border-left:4px solid var(--row-accent, var(--line));}
+  .filter-btn[data-filter="all"]{border-left-color:var(--line);}
 
   /* Leadership */
   .lead-role{
@@ -421,6 +430,7 @@
     body{background:#fff;}
     .sheet{border:none; margin:0;}
     section{break-inside:avoid;}
+    #filterRow, #engCount{display:none !important;}
 
     /* ---- Lite CV: one-page condensed export ---- */
     body.print-lite .lite-hide{display:none !important;}
@@ -622,7 +632,7 @@
   <!-- 04 ENGAGEMENTS -->
   <section id="engagements">
     <div class="sec-head"><span class="sec-num">04</span><h2>Major Client Engagements</h2></div>
-    <p class="eyebrow lite-hide" style="margin-bottom:16px;">2018 – 2026 · Filter by industry</p>
+    <p class="eyebrow lite-hide" style="margin-bottom:16px;">2018 – 2026 · Color-coded by industry</p>
     <div class="filter-row lite-hide" id="filterRow">
       <button class="filter-btn active" data-filter="all">All</button>
     </div>
@@ -773,12 +783,29 @@
   // Build filter buttons from data-industry values
   const rows = Array.from(document.querySelectorAll('#bomTable tbody tr'));
   const industries = [...new Set(rows.map(r => r.dataset.industry))].sort();
+
+  // Color palette (matches the drawing-sheet ink/accent/teal palette)
+  const palette = ['#C1501F','#2C6E68','#3B5B7C','#7A7F3D','#8A5A6E','#B78A2E','#5C6B7C','#8B5E3C','#3F7A5D','#4A5A8C'];
+  const hexToRgba = (hex, a) => {
+    const n = parseInt(hex.slice(1), 16);
+    return `rgba(${(n>>16)&255},${(n>>8)&255},${n&255},${a})`;
+  };
+  const industryColor = {};
+  industries.forEach((ind, i) => { industryColor[ind] = palette[i % palette.length]; });
+
+  rows.forEach(r => {
+    const color = industryColor[r.dataset.industry];
+    r.style.setProperty('--row-accent', color);
+    r.style.setProperty('--row-tint', hexToRgba(color, 0.05));
+  });
+
   const filterRow = document.getElementById('filterRow');
   industries.forEach(ind => {
     const btn = document.createElement('button');
     btn.className = 'filter-btn';
     btn.dataset.filter = ind;
     btn.textContent = ind;
+    btn.style.setProperty('--row-accent', industryColor[ind]);
     filterRow.appendChild(btn);
   });
 
