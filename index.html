@@ -362,6 +362,28 @@
     gap:36px;
   }
 
+  /* Flagship Project */
+  .flagship-grid{
+    display:grid;
+    grid-template-columns:1.6fr 1fr;
+    gap:36px;
+  }
+  .flagship-grid ul{margin:0; padding-left:0; list-style:none;}
+  .flagship-grid li{
+    position:relative;
+    padding-left:20px;
+    margin-bottom:9px;
+    color:var(--ink-soft);
+  }
+  .flagship-grid li::before{
+    content:"—";
+    position:absolute;
+    left:0;
+    color:var(--accent);
+  }
+  .flagship-grid li strong{color:var(--ink);}
+  .flagship-intro{color:var(--ink-soft); margin-bottom:16px;}
+
   /* Education/Publications */
   .edu-grid{display:grid; grid-template-columns:1fr 1fr; gap:30px;}
   .edu-card{border:1px solid var(--line); padding:20px;}
@@ -409,6 +431,7 @@
     .tb-fields{grid-template-columns:1fr 1fr;}
     .summary-grid{grid-template-columns:1fr;}
     .leadership-grid{grid-template-columns:1fr;}
+    .flagship-grid{grid-template-columns:1fr;}
     .edu-grid{grid-template-columns:1fr;}
     section{padding:32px 20px;}
     .titleblock{padding:28px 20px;}
@@ -478,6 +501,7 @@
     <a href="#engagements">04 Engagements</a>
     <a href="#education">05 Education</a>
     <a href="#leadership">06 Leadership</a>
+    <a href="#flagship">07 Flagship Project</a>
   </nav>
 
   <!-- 01 SUMMARY -->
@@ -782,6 +806,41 @@
         <div class="stat"><div class="num">15</div><div class="lbl">Team Members</div></div>
         <div class="stat"><div class="num">3</div><div class="lbl">Delivery Locations</div></div>
         <div class="stat"><div class="num">4</div><div class="lbl">Regions Served</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 FLAGSHIP PROJECT -->
+  <section id="flagship">
+    <div class="sec-head"><span class="sec-num">07</span><h2>Flagship Project — CDEC</h2></div>
+    <div class="flagship-grid">
+      <div>
+        <div class="lead-role">
+          <h3>CDEC — Creo Elements/Direct – Teamcenter Integration</h3>
+          <span class="period mono">2018 — Present · Solution Architect &amp; End-to-End Owner</span>
+        </div>
+        <p class="flagship-intro">
+          The one project I've carried from a blank sheet of paper to a licensed, revenue-generating product.
+          CDEC (Creo Elements/Direct &amp; Teamcenter integration) began as a greenfield concept and now runs
+          in production across multiple customer sites. As Architect, I owned it across the full lifecycle —
+          not just the design, but the coding, the deployment, the testing, the customer conversations, the
+          licensing model, and the production bug fixes that came after go-live.
+        </p>
+        <ul>
+          <li><strong>Design &amp; Solutioning</strong> — Defined the end-to-end integration architecture, data flow, and object model between Creo Elements/Direct and Teamcenter, translating customer requirements into a scalable, repeatable solution design</li>
+          <li><strong>Coding &amp; Development</strong> — Personally built the core integration logic, translators, and Teamcenter customizations, keeping the codebase configurable enough to reuse across customers with differing CAD/PLM landscapes</li>
+          <li><strong>Deployment</strong> — Planned and executed installations across on-premise and customer-hosted Teamcenter environments, handling environment-specific configuration and go-live cutovers</li>
+          <li><strong>Testing &amp; Quality</strong> — Designed test scenarios covering data integrity, migration edge cases, and workflow behaviour, validating each release before it reached a customer site</li>
+          <li><strong>Customer Interactions</strong> — Acted as the primary technical point of contact through requirements gathering, solution walkthroughs, UAT, and go-live support across customers in Europe and beyond</li>
+          <li><strong>Licensing</strong> — Shaped CDEC into a licensed, productized offering with its own commercial model, turning a one-off implementation into a recurring revenue stream</li>
+          <li><strong>Production Support &amp; Bug Fixes</strong> — Remained the owner post-go-live, triaging and resolving production issues directly, ensuring reliability for every customer running the integration</li>
+        </ul>
+      </div>
+      <div class="stat-block">
+        <div class="stat"><div class="num">1</div><div class="lbl">Architect Owning Full Lifecycle</div></div>
+        <div class="stat"><div class="num">8+</div><div class="lbl">Yrs In Production</div></div>
+        <div class="stat"><div class="num">10+</div><div class="lbl">Customer Deployments</div></div>
+        <div class="stat"><div class="num">1</div><div class="lbl">Licensed Product</div></div>
       </div>
     </div>
   </section>
