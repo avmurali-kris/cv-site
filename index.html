@@ -81,10 +81,18 @@
   /* ---------- Title block (header) ---------- */
   .titleblock{
     display:grid;
-    grid-template-columns:1fr auto;
+    grid-template-columns:auto 1fr auto;
     gap:24px;
     padding:36px 40px 28px;
     border-bottom:1.5px solid var(--ink);
+  }
+  .tb-photo{
+    width:120px;
+    height:156px;
+    object-fit:cover;
+    border:1.5px solid var(--ink);
+    align-self:start;
+    background:var(--paper);
   }
   .titleblock h1{
     font-size:clamp(1.9rem, 4vw, 2.7rem);
@@ -431,7 +439,8 @@
   .lite-show{display:none;}
 
   @media (max-width:760px){
-    .titleblock{grid-template-columns:1fr;}
+    .titleblock{grid-template-columns:1fr; justify-items:start;}
+    .tb-photo{width:96px; height:125px; order:-1;}
     .tb-fields{grid-template-columns:1fr 1fr;}
     .summary-grid{grid-template-columns:1fr;}
     .leadership-grid{grid-template-columns:1fr;}
@@ -479,9 +488,10 @@
   <div class="ruler-top"><span>A</span><span>B</span><span>C</span><span>D</span><span>E</span><span>F</span></div>
 
   <header class="titleblock">
+    <img class="tb-photo" src="muralikrishna-photo.jpg" alt="Photo of Muralikrishna A V">
     <div>
       <h1>Muralikrishna A V</h1>
-      <p class="role-line">PLM Migration Consultant</p>
+      <p class="role-line">PLM &amp; CAD Migration Consultant</p>
       <div class="contact">
         <span>📍 Chennai, Tamil Nadu, India</span>
         <a href="mailto:avmurali@gmail.com">avmurali@gmail.com</a>
@@ -534,7 +544,7 @@
 
     <div class="role">
       <div class="role-header">
-        <h3>PLM Migration Analyst — R-3DE India / PLMS-ME, Dubai</h3>
+        <h3>PLM &amp; CAD Migration Consultant — R-3DE India / PLMS-ME, Dubai</h3>
         <span class="period mono">Apr 2018 — Present · Remote</span>
       </div>
       <ul>
@@ -545,6 +555,7 @@
         <li>Configured and implemented Teamcenter Dispatcher, workflows, and CAD translators across multi-CAD environments</li>
         <li>Developed and integrated ERP interfaces using T4EA, enabling seamless data exchange between PLM and enterprise systems</li>
         <li>Currently leading a multi-year PLM transformation program, driving implementation, standardization, and continuous improvement</li>
+        <li>Involved in pre-sales activities for the past 8 years, including customer calls, solution demos, technical discussions, and email correspondence to support the sale of R-3DE's in-house CDEC integration to prospective customers</li>
       </ul>
     </div>
 
@@ -613,7 +624,7 @@
         <span class="cat-name">CAD API / Customization</span>
         <div class="chips">
           <span class="chip">CED LISP API</span><span class="chip">SE API</span>
-          <span class="chip">NX Open Basics</span><span class="chip">CATVBS Basics</span>
+          <span class="chip">NX Open Basics</span><span class="chip">Creo Parametric API</span><span class="chip">CATVBS Basics</span>
         </div>
       </div>
       <div class="cat lite-hide">
@@ -842,8 +853,8 @@
       </div>
       <div class="stat-block">
         <div class="stat"><div class="num">1</div><div class="lbl">Architect Owning Full Lifecycle</div></div>
-        <div class="stat"><div class="num">8+</div><div class="lbl">Yrs In Production</div></div>
-        <div class="stat"><div class="num">10+</div><div class="lbl">Customer Deployments</div></div>
+        <div class="stat"><div class="num">6+</div><div class="lbl">Yrs In Production</div></div>
+        <div class="stat"><div class="num">4</div><div class="lbl">Customer Deployments</div></div>
         <div class="stat"><div class="num">1</div><div class="lbl">Licensed Product</div></div>
       </div>
     </div>
